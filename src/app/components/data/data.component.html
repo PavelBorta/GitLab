@@ -1,0 +1,21 @@
+<div class="main">
+  <div class="data__container">
+    <div class="user user__header">
+      <div class="index"></div>
+      <div class="first_name">First Name</div>
+      <div class="last_name">Last Name</div>
+      <div class="country">Country</div>
+      <div class="birthday">Birthday</div>
+    </div>
+    <div *ngFor="let user of users; let index = index;" class="user">
+      <div class="index">{{index + 1}}</div>
+      <div class="first_name">{{user.firstName}}</div>
+      <div class="last_name">{{user.lastName}}</div>
+      <div class="country">{{user.country}}</div>
+      <div class="birthday">{{user.birthday | date:'dd/MM/yyyy'}}</div>
+    </div>
+    <div *ngIf="users.length" class="user user__footer">
+      Total items: {{users.length}}
+    </div>
+  </div>
+</div>

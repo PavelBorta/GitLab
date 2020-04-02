@@ -1,0 +1,124 @@
+<div class="crud__header">
+  <div *ngFor="let item of menuItems" class="item" [class.active]="item === selectedItem" (click)="tabChange(item)">
+    {{item}}
+  </div>
+</div>
+
+<div [ngSwitch]="selectedItem" class="container">
+  <div *ngSwitchCase="'Create'">
+    <ng-container *ngTemplateOutlet="createEditRef"></ng-container>
+    <ng-container *ngTemplateOutlet="createButtonRef"></ng-container>
+  </div>
+
+  <div *ngSwitchCase="'Read'">
+    <ng-container *ngTemplateOutlet="selectRef"></ng-container>
+    <ng-container *ngIf="user">
+      <ng-container *ngTemplateOutlet="viewRef"></ng-container>
+    </ng-container>
+  </div>
+
+  <div *ngSwitchCase="'Update'">
+    <ng-container *ngTemplateOutlet="selectRef"></ng-container>
+    <ng-container *ngIf="user">
+      <ng-container *ngTemplateOutlet="createEditRef"></ng-container>
+      <ng-container *ngTemplateOutlet="updateButtonRef"></ng-container>
+    </ng-container>
+  </div>
+
+  <div *ngSwitchCase="'Delete'">
+    <ng-container *ngTemplateOutlet="selectRef"></ng-container>
+    <ng-container *ngIf="user">
+      <ng-container *ngTemplateOutlet="viewRef"></ng-container>
+      <ng-container *ngTemplateOutlet="deleteButtonRef"></ng-container>
+    </ng-container>
+  </div>
+
+</div>
+
+<!-- Templates -->
+
+<ng-template #selectRef>
+  <div class="select" (click)="selectionOpened = !selectionOpened">
+    <div class="select__trigger">
+      <div>
+        {{user ? (user.firstName + ' ' + user.lastName) : 'Select user'}}
+      </div>
+      <div>&#8628;</div>
+    </div>
+    <div *ngIf="selectionOpened" class="select__items">
+      <div *ngFor="let item of users" class="select__item" (click)="selectUser(item)">
+        {{item.firstName}} {{item.lastName}}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #createEditRef>
+  <div class="item">
+    <div>First Name</div>
+    <input type="text" [(ngModel)]="user.firstName">
+  </div>
+  <div class="item">
+    <div>Last Name</div>
+    <input type="text" [(ngModel)]="user.lastName">
+  </div>
+  <div class="item">
+    <div>Country</div>
+    <input type="text" [(ngModel)]="user.country">
+  </div>
+  <div class="item">
+    <div>Birthday</div>
+    <input type="date" [(ngModel)]="user.birthday">
+  </div>
+</ng-template>
+
+<ng-template #viewRef>
+  <div class="item">
+    <div>First Name</div>
+    <div class="item__view">{{user.firstName}}</div>
+  </div>
+  <div class="item">
+    <div>Last Name</div>
+    <div class="item__view">{{user.lastName}}</div>
+  </div>
+  <div class="item">
+    <div>Country</div>
+    <div class="item__view">{{user.country}}</div>
+  </div>
+  <div class="item">
+    <div>Birthday</div>
+    <div class="item__view">{{user.birthday}}</div>
+  </div>
+</ng-template>
+
+
+<!-- Buttons -->
+<ng-template #createButtonRef>
+  <div class="item item--last">
+    <span *ngIf="message">{{message}}</span>
+    <span></span>
+    <div class="button" (click)="create()">
+      Create
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #updateButtonRef>
+  <div class="item item--last">
+    <span *ngIf="message">{{message}}</span>
+    <span></span>
+    <div class="button" (click)="update()">
+      Update
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteButtonRef>
+  <div class="item item--last">
+    <span *ngIf="message">{{message}}</span>
+    <span></span>
+    <div class="button" (click)="delete()">
+      Delete
+    </div>
+  </div>
+</ng-template>
